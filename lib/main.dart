@@ -41,25 +41,40 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Form(
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'メールアドレスを入力してください',
-                    labelText: 'メールアドレス *',
+          child: AutofillGroup(
+            child: Container(
+              padding: const EdgeInsets.all(50.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: 'メールアドレスを入力してください',
+                      labelText: 'メールアドレス *',
+                    ),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) => (!value!.contains('@') || !value.contains('.')) ? 'メールアドレスを入力してください' : null,
                   ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) => (!value!.contains('@')) ? 'メールアドレスを入力してください' : null,
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'パスワードを入力してください',
-                    labelText: 'パスワード'
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: 'パスワードを入力してください',
+                      labelText: 'パスワード'
+                    ),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) => (value!.isEmpty) ? 'パスワードを入力してください' : null,
+                    obscureText: true,
                   ),
-                )
-              ],
+                  Padding(padding: EdgeInsets.only(bottom: 20.0)),
+                  ElevatedButton(
+                      child: const Text('ログイン'),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.amber,
+                        padding: EdgeInsets.all(20.0)
+                      ),
+                      onPressed: () {},
+                  )
+                ],
+              ),
             ),
           ),
         ),

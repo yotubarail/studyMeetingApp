@@ -56,7 +56,7 @@ class SignUp extends StatelessWidget {
                           padding: EdgeInsets.all(20.0)
                       ),
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>TodoListPage(),)
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>StudyMeetingListPage(),)
                         );
                       },
                     )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/list/submissionMeetingList.dart';
 
-class TodoListPage extends StatelessWidget {
+class StudyMeetingListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,28 +31,11 @@ class TodoListPage extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TodoAddPage(),)
+                    MaterialPageRoute(builder: (context) => SubmissionMettingListPage(),)
                 );
               }
           ),
         ],
-      ),
-    );
-  }
-}
-
-// リスト追加画面用Widget
-class TodoAddPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text('リスト追加画面（クリックで戻る）'),
-        ),
       ),
     );
   }

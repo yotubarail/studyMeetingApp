@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:my_app/login/signup.dart';
 import 'package:my_app/list/studyMeetingList.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -32,6 +36,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  String emailAdress = '';
+  String password = '';
+  String infoText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +81,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) => !(new RegExp(r'^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$').hasMatch(value!)) ? 'メールアドレスを入力してください' : null,
                       keyboardType: TextInputType.emailAddress,
+                      onChanged: (String value) {
+                        setState(() {
+                          emailAdress = value;
+                        });
+                      },
                     ),
                     TextFormField(
                       decoration: const InputDecoration(hintText: 'パスワードを入力してください', labelText: 'パスワード'
@@ -81,7 +94,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       validator: (value) => (value!.isEmpty) ? 'パスワードを入力してください' : null,
                       obscureText: true,
                       keyboardType: TextInputType.visiblePassword,
+                      onChanged: (String value) {
+                        setState(() {
+                          password = value;
+                        });
+                      },
                     ),
+                    Text(infoText),
                     Padding(padding: EdgeInsets.only(bottom: 20.0)),
                     ElevatedButton(
                       child: Text('ログイン'),
@@ -89,9 +108,29 @@ class _MyHomePageState extends State<MyHomePage> {
                           primary: Colors.amber,
                           padding: EdgeInsets.all(20.0)
                       ),
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>StudyMeetingListPage(),)
-                        );
+                      onPressed: () async {
+                        try {
+                          // メール/パスワードでユーザー登録
+                          final FirebaseAuth auth = FirebaseAuth.instance;
+                          final UserCredential result =
+                          await auth.signInWithEmailAndPassword(
+                            email: emailAdress,
+                            password: password,
+                          );
+
+                          // 登録したユーザー情報
+                          final User user = result.user!;
+                          setState(() {
+                            infoText = '';
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>StudyMeetingListPage(),)
+                            );
+                          });
+                        } catch (e) {
+                          // 登録に失敗した場合
+                          setState(() {
+                            infoText = "登録NG：${e.toString()}";
+                          });
+                        }
                       },
                     ),
                   ],

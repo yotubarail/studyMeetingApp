@@ -37,7 +37,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  String emailAdress = '';
+  String emailAddress = '';
   String password = '';
   String infoText = '';
 
@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       keyboardType: TextInputType.emailAddress,
                       onChanged: (String value) {
                         setState(() {
-                          emailAdress = value;
+                          emailAddress = value;
                         });
                       },
                     ),
@@ -114,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           final FirebaseAuth auth = FirebaseAuth.instance;
                           final UserCredential result =
                           await auth.signInWithEmailAndPassword(
-                            email: emailAdress,
+                            email: emailAddress,
                             password: password,
                           );
 

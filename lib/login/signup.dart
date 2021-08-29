@@ -10,7 +10,7 @@ class SignUp extends StatefulWidget {
 
 
 class _SignUp extends State<SignUp> {
-  String emailAdress = '';
+  String emailAddress = '';
   String password = '';
   String infoText = '';
 
@@ -48,7 +48,7 @@ class _SignUp extends State<SignUp> {
                       keyboardType: TextInputType.emailAddress,
                       onChanged: (String value) {
                         setState(() {
-                          emailAdress = value;
+                          emailAddress = value;
                         });
                       },
                     ),
@@ -84,7 +84,7 @@ class _SignUp extends State<SignUp> {
                           final FirebaseAuth auth = FirebaseAuth.instance;
                           final UserCredential result =
                           await auth.createUserWithEmailAndPassword(
-                            email: emailAdress,
+                            email: emailAddress,
                             password: password,
                           );
 

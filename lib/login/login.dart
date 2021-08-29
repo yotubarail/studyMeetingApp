@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/login/signup.dart';
+import 'package:my_app/list/studyMeetingList.dart';
 
 void main() {
   runApp(MyApp());
@@ -83,12 +84,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 20.0)),
                     ElevatedButton(
-                      child: const Text('ログイン'),
+                      child: Text('ログイン'),
                       style: ElevatedButton.styleFrom(
                           primary: Colors.amber,
                           padding: EdgeInsets.all(20.0)
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>StudyMeetingListPage(),)
+                        );
+                      },
                     ),
                   ],
                 ),

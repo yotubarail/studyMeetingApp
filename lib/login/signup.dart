@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/list/studyMeetingList.dart';
 
 class SignUp extends StatelessWidget {
   @override
@@ -54,7 +55,10 @@ class SignUp extends StatelessWidget {
                           primary: Colors.amber,
                           padding: EdgeInsets.all(20.0)
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>StudyMeetingListPage(),)
+                        );
+                      },
                     )
                   ],
                 ),

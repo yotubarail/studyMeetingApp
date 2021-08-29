@@ -70,6 +70,7 @@ class _SignUp extends State<SignUp> {
                         });
                       },
                     ),
+                    Text(infoText),
                     Padding(padding: EdgeInsets.only(bottom: 20.0)),
                     ElevatedButton(
                       child: const Text('ログイン'),
@@ -90,6 +91,7 @@ class _SignUp extends State<SignUp> {
                           // 登録したユーザー情報
                           final User user = result.user!;
                           setState(() {
+                            infoText = '';
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>StudyMeetingListPage(),)
                             );
                           });

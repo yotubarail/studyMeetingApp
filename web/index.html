@@ -94,5 +94,25 @@
       loadMainDartJs();
     }
   </script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBB-oLSFYC08oR4kUHVgDxhITYQS_fpSyU",
+    authDomain: "studymeentingapp.firebaseapp.com",
+    projectId: "studymeentingapp",
+    storageBucket: "studymeentingapp.appspot.com",
+    messagingSenderId: "260885674494",
+    appId: "1:260885674494:web:1f716b6ef7e61510f1e8af"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
+  <script src="login.dart.js" type="application/javascript"></script>
 </body>
 </html>

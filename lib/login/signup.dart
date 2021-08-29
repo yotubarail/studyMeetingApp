@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/list/studyMeetingList.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class SignUp extends StatelessWidget {
+class SignUp extends StatefulWidget {
+  // 使用するStateを指定
+  @override
+  _SignUp createState() => _SignUp();
+}
+
+
+class _SignUp extends State<SignUp> {
+  String emailAdress = '';
+  String password = '';
+  String infoText = '';
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -34,6 +46,11 @@ class SignUp extends StatelessWidget {
                           r'^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$')
                           .hasMatch(value!)) ? 'メールアドレスを入力してください' : null,
                       keyboardType: TextInputType.emailAddress,
+                      onChanged: (String value) {
+                        setState(() {
+                          emailAdress = value;
+                        });
+                      },
                     ),
                     TextFormField(
                       decoration: const InputDecoration(
@@ -47,6 +64,11 @@ class SignUp extends StatelessWidget {
                           : null,
                       obscureText: true,
                       keyboardType: TextInputType.visiblePassword,
+                      onChanged: (String value) {
+                        setState(() {
+                          password = value;
+                        });
+                      },
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 20.0)),
                     ElevatedButton(
@@ -55,9 +77,28 @@ class SignUp extends StatelessWidget {
                           primary: Colors.amber,
                           padding: EdgeInsets.all(20.0)
                       ),
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>StudyMeetingListPage(),)
-                        );
+                      onPressed: () async {
+                        try {
+                          // メール/パスワードでユーザー登録
+                          final FirebaseAuth auth = FirebaseAuth.instance;
+                          final UserCredential result =
+                          await auth.createUserWithEmailAndPassword(
+                            email: emailAdress,
+                            password: password,
+                          );
+
+                          // 登録したユーザー情報
+                          final User user = result.user!;
+                          setState(() {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>StudyMeetingListPage(),)
+                            );
+                          });
+                        } catch (e) {
+                          // 登録に失敗した場合
+                          setState(() {
+                            infoText = "登録NG：${e.toString()}";
+                          });
+                        }
                       },
                     )
                   ],

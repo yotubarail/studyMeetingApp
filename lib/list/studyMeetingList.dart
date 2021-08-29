@@ -10,28 +10,29 @@ class StudyMeetingListPage extends StatelessWidget {
         title: Text('勉強会一覧'),
         automaticallyImplyLeading: false,
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 190,
-            child: ListView(
-              children: <Widget>[
-                InkWell(
-                  onTap: () {
-                    Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => StudyMeetingDetailPage(studyMeetingTitle: 'Flutterハンズオン'))
-                    );
-                  },
-                  child: Card(
-                    child: ListTile(
-                      title: Text('Flutterハンズオン'),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 400,
+              child: ListView(
+                children: <Widget>[
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => StudyMeetingDetailPage(studyMeetingTitle: 'Flutterハンズオン'))
+                      );
+                    },
+                    child: Card(
+                      child: ListTile(
+                        title: Text('Flutterハンズオン'),
+                      ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
-          ),
-          ElevatedButton(
+            ElevatedButton(
               child: Text('イベント管理'),
               style: ElevatedButton.styleFrom(
                   primary: Colors.blue,
@@ -42,9 +43,10 @@ class StudyMeetingListPage extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => SubmissionMettingListPage(),)
                 );
               }
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+      )
     );
   }
 }

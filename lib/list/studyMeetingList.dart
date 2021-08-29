@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/list/submissionMeetingList.dart';
+import 'package:my_app/detail/studyMeetingDetail.dart';
 
 class StudyMeetingListPage extends StatelessWidget {
   @override
@@ -15,11 +16,18 @@ class StudyMeetingListPage extends StatelessWidget {
             height: 190,
             child: ListView(
               children: <Widget>[
-                Card(
-                  child: ListTile(
-                    title: Text('Flutterハンズオン'),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => StudyMeetingDetailPage(studyMeetingTitle: 'Flutterハンズオン'))
+                    );
+                  },
+                  child: Card(
+                    child: ListTile(
+                      title: Text('Flutterハンズオン'),
+                    ),
                   ),
-                ),
+                )
               ],
             ),
           ),

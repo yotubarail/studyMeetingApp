@@ -4,8 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class SubmissionPage extends StatefulWidget {
   final String studyMeetingTitle;
+  final String descriptionText;
   final User user;
-  SubmissionPage({required this.studyMeetingTitle, required this.user});
+  SubmissionPage({required this.studyMeetingTitle, required this.descriptionText, required this.user});
   @override
   _StudyMeetingEditPage createState() => _StudyMeetingEditPage();
 }
@@ -34,12 +35,14 @@ class _StudyMeetingEditPage extends State<SubmissionPage> {
                   studyMeetingTitle = value;
                 });
               },
-            ),Container(
+            ),
+            Container(
                 height: 300,
-                child: TextField(
+                child: TextFormField(
                   decoration: InputDecoration(labelText: '投稿メッセージ'),
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
+                  initialValue: widget.descriptionText,
                   onChanged: (String value) {
                     setState(() {
                       descriptionText = value;

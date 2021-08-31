@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import '../edit/studyMeetingEdit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class SubmissionMettingListPage extends StatelessWidget {
+class SubmissionMettingListPage extends StatefulWidget {
+  final User user;
+  SubmissionMettingListPage({required this.user});
+  @override
+  _SubmissionMettingList createState() => _SubmissionMettingList();
+}
+
+class _SubmissionMettingList extends State<SubmissionMettingListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +27,7 @@ class SubmissionMettingListPage extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => StudyMeetingEditPage(studyMeetingTitle: 'Flutterハンズオン'))
+                        MaterialPageRoute(builder: (context) => SubmissionPage(studyMeetingTitle: 'Flutterハンズオン', user: widget.user,))
                       );
                     },
                     child: Card(
@@ -52,7 +60,7 @@ class SubmissionMettingListPage extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => StudyMeetingEditPage(studyMeetingTitle: ''))
+                      MaterialPageRoute(builder: (context) => SubmissionPage(studyMeetingTitle: '', user: widget.user,))
                     );
                   }
                 ),

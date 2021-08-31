@@ -1,8 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/list/submissionMeetingList.dart';
 import 'package:my_app/detail/studyMeetingDetail.dart';
 
-class StudyMeetingListPage extends StatelessWidget {
+class StudyMeetingListPage extends StatefulWidget {
+  final User user;
+  StudyMeetingListPage({required this.user});
+  @override
+  _StudyMeetingList createState() => _StudyMeetingList();
+}
+
+class _StudyMeetingList extends State<StudyMeetingListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +48,7 @@ class StudyMeetingListPage extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SubmissionMettingListPage(),)
+                    MaterialPageRoute(builder: (context) => SubmissionMettingListPage(user: widget.user,),)
                 );
               }
             ),

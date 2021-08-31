@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class StudyMeetingEditPage extends StatelessWidget {
+class SubmissionPage extends StatefulWidget {
   final String studyMeetingTitle;
+  final User user;
+  SubmissionPage({required this.studyMeetingTitle, required this.user});
+  @override
+  _StudyMeetingEditPage createState() => _StudyMeetingEditPage();
+}
 
-  const StudyMeetingEditPage({Key? key, required this.studyMeetingTitle}) : super(key: key);
+class _StudyMeetingEditPage extends State<SubmissionPage> {
+
+  String studyMeetingTitle = '';
+  String descriptionText = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text((studyMeetingTitle == '') ? '新規投稿': (studyMeetingTitle + 'の編集')),
+        title: Text((widget.studyMeetingTitle == '') ? '新規投稿': (widget.studyMeetingTitle + 'の編集')),
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -18,9 +28,11 @@ class StudyMeetingEditPage extends StatelessWidget {
               decoration: InputDecoration(labelText: '勉強会タイトル'),
               keyboardType: TextInputType.text,
               maxLines: 1,
-              initialValue: studyMeetingTitle,
+              initialValue: widget.studyMeetingTitle,
               onChanged: (String value) {
-
+                setState(() {
+                  studyMeetingTitle = value;
+                });
               },
             ),Container(
                 height: 300,
@@ -29,6 +41,9 @@ class StudyMeetingEditPage extends StatelessWidget {
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   onChanged: (String value) {
+                    setState(() {
+                      descriptionText = value;
+                    });
                     },
                 )
               ),
@@ -55,10 +70,26 @@ class StudyMeetingEditPage extends StatelessWidget {
                         primary: Colors.blue,
                         padding: EdgeInsets.all(20.0)
                     ),
-                    onPressed: () {
-
+                    onPressed: () async {
+                      final FirebaseAuth auth = FirebaseAuth.instance;
+                      final date = DateTime.now().toLocal().toIso8601String();
+                      final email = widget.user.email;
+                      await FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(auth.currentUser!.uid)
+                      .collection('events')
+                      .doc()
+                      .set({
+                        'title': studyMeetingTitle,
+                        'body': descriptionText,
+                        'guests': [],
+                        'email': email,
+                        'createTime': date,
+                        'updateTime': date,
+                        'guestCount': 0,
+                      });
                     }
-                ),
+                  ),
               ],
             )
           ],

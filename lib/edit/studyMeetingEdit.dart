@@ -5,8 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 class SubmissionPage extends StatefulWidget {
   final String studyMeetingTitle;
   final String descriptionText;
+  final String documentId;
+  final String createDate;
   final User user;
-  SubmissionPage({required this.studyMeetingTitle, required this.descriptionText, required this.user});
+  SubmissionPage({required this.studyMeetingTitle, required this.descriptionText, required this.documentId, required this.createDate, required this.user});
   @override
   _StudyMeetingEditPage createState() => _StudyMeetingEditPage();
 }
@@ -81,16 +83,17 @@ class _StudyMeetingEditPage extends State<SubmissionPage> {
                       .collection('users')
                       .doc(auth.currentUser!.uid)
                       .collection('events')
-                      .doc()
+                      .doc((widget.documentId == '') ? '': widget.documentId)
                       .set({
-                        'title': studyMeetingTitle,
-                        'body': descriptionText,
+                        'title': (studyMeetingTitle == '') ? widget.studyMeetingTitle : studyMeetingTitle,
+                        'body': (descriptionText == '') ? widget.descriptionText : descriptionText,
                         'guests': [],
                         'email': email,
-                        'createTime': date,
+                        'createTime': (widget.createDate == '') ? date : widget.createDate,
                         'updateTime': date,
                         'guestCount': 0,
                       });
+                      Navigator.of(context).pop();
                     }
                   ),
               ],

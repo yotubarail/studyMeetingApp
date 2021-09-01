@@ -45,7 +45,7 @@ class _SubmissionMettingList extends State<SubmissionMettingListPage> {
                             child: InkWell(
                               onTap: () {
                                 Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) => SubmissionPage(studyMeetingTitle: document['title'], descriptionText: document['body'], user: widget.user,))
+                                    MaterialPageRoute(builder: (context) => SubmissionPage(studyMeetingTitle: document['title'], descriptionText: document['body'], documentId: document.id, createDate: document['createTime'], user: widget.user,))
                                 );
                               },
                               child: Card(
@@ -86,7 +86,7 @@ class _SubmissionMettingList extends State<SubmissionMettingListPage> {
                   ),
                   onPressed: () {
                     Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SubmissionPage(studyMeetingTitle: '', descriptionText: '', user: widget.user,))
+                      MaterialPageRoute(builder: (context) => SubmissionPage(studyMeetingTitle: '', descriptionText: '', documentId: '', createDate: '', user: widget.user,))
                     );
                   }
                 ),

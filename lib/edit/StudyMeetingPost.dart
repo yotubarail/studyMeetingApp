@@ -2,18 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class SubmissionPage extends StatefulWidget {
-  final String studyMeetingTitle;
-  final String descriptionText;
-  final DocumentSnapshot document;
-  final String createDate;
+class PostPage extends StatefulWidget {
   final User user;
-  SubmissionPage({required this.studyMeetingTitle, required this.descriptionText, required this.document, required this.createDate, required this.user});
+  PostPage({required this.user});
   @override
-  _StudyMeetingEditPage createState() => _StudyMeetingEditPage();
+  _StudyMeetingPostPage createState() => _StudyMeetingPostPage();
 }
 
-class _StudyMeetingEditPage extends State<SubmissionPage> {
+class _StudyMeetingPostPage extends State<PostPage> {
 
   String studyMeetingTitle = '';
   String descriptionText = '';
@@ -21,7 +17,7 @@ class _StudyMeetingEditPage extends State<SubmissionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.studyMeetingTitle),
+        title: Text('新規投稿'),
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -31,7 +27,6 @@ class _StudyMeetingEditPage extends State<SubmissionPage> {
               decoration: InputDecoration(labelText: '勉強会タイトル'),
               keyboardType: TextInputType.text,
               maxLines: 1,
-              initialValue: widget.studyMeetingTitle,
               onChanged: (String value) {
                 setState(() {
                   studyMeetingTitle = value;
@@ -44,21 +39,16 @@ class _StudyMeetingEditPage extends State<SubmissionPage> {
                   decoration: InputDecoration(labelText: '投稿メッセージ'),
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
-                  initialValue: widget.descriptionText,
                   onChanged: (String value) {
                     setState(() {
                       descriptionText = value;
                     });
-                    },
+                  },
                 )
-              ),
-            Container(
-              padding: EdgeInsets.only(top: 20, bottom: 60),
-              child: Text('参加：'),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
+              children: [
                 ElevatedButton(
                     child: Text('戻る'),
                     style: ElevatedButton.styleFrom(
@@ -80,20 +70,20 @@ class _StudyMeetingEditPage extends State<SubmissionPage> {
                       final date = DateTime.now().toLocal().toIso8601String();
                       final email = widget.user.email;
                       await FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(auth.currentUser!.uid)
-                      .collection('events')
-                      .doc((widget.document.id == '') ? null: widget.document.id)
-                      .set({
-                        'title': (studyMeetingTitle == '') ? widget.studyMeetingTitle : studyMeetingTitle,
-                        'body': (descriptionText == '') ? widget.descriptionText : descriptionText,
+                          .collection('users')
+                          .doc(auth.currentUser!.uid)
+                          .collection('events')
+                          .doc()
+                          .set({
+                        'title': studyMeetingTitle,
+                        'body': descriptionText,
                         'email': email,
-                        'createTime': (widget.createDate == '') ? date : widget.createDate,
+                        'createTime': date,
                         'updateTime': date,
                       });
                       Navigator.of(context).pop();
                     }
-                  ),
+                ),
               ],
             )
           ],

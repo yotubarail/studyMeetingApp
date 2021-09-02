@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../edit/studyMeetingEdit.dart';
+import '../edit/StudyMeetingPost.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -45,7 +46,7 @@ class _SubmissionMettingList extends State<SubmissionMettingListPage> {
                             child: InkWell(
                               onTap: () {
                                 Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) => SubmissionPage(studyMeetingTitle: document['title'], descriptionText: document['body'], documentId: document.id, createDate: document['createTime'], user: widget.user,))
+                                    MaterialPageRoute(builder: (context) => SubmissionPage(studyMeetingTitle: document['title'], descriptionText: document['body'], document: document, createDate: document['createTime'], user: widget.user,))
                                 );
                               },
                               child: Card(
@@ -86,7 +87,7 @@ class _SubmissionMettingList extends State<SubmissionMettingListPage> {
                   ),
                   onPressed: () {
                     Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SubmissionPage(studyMeetingTitle: '', descriptionText: '', documentId: '', createDate: '', user: widget.user,))
+                      MaterialPageRoute(builder: (context) => PostPage(user: widget.user,))
                     );
                   }
                 ),

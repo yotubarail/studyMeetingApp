@@ -83,11 +83,10 @@ class _StudyMeetingEditPage extends State<SubmissionPage> {
                       .collection('users')
                       .doc(auth.currentUser!.uid)
                       .collection('events')
-                      .doc((widget.documentId == '') ? '': widget.documentId)
+                      .doc((widget.documentId == '') ? null: widget.documentId)
                       .set({
                         'title': (studyMeetingTitle == '') ? widget.studyMeetingTitle : studyMeetingTitle,
                         'body': (descriptionText == '') ? widget.descriptionText : descriptionText,
-                        'guests': [],
                         'email': email,
                         'createTime': (widget.createDate == '') ? date : widget.createDate,
                         'updateTime': date,

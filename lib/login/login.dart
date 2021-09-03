@@ -119,10 +119,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           );
 
                           // 登録したユーザー情報
-                          final User user = result.user!;
                           setState(() {
                             infoText = '';
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>StudyMeetingListPage(),)
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>StudyMeetingListPage(user: result.user!),)
                             );
                           });
                         } catch (e) {

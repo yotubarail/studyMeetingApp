@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/list/studyMeetingList.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUp extends StatefulWidget {
   // 使用するStateを指定
@@ -87,12 +88,19 @@ class _SignUp extends State<SignUp> {
                             email: emailAddress,
                             password: password,
                           );
+                          final date = DateTime.now().toLocal().toIso8601String();
+                          await FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(auth.currentUser!.uid)
+                              .set({
+                                'name': emailAddress,
+                                'createTime': date,
+                          });
 
                           // 登録したユーザー情報
-                          final User user = result.user!;
                           setState(() {
                             infoText = '';
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>StudyMeetingListPage(),)
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>StudyMeetingListPage(user: result.user!,),)
                             );
                           });
                         } catch (e) {

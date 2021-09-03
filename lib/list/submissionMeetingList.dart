@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 import '../edit/studyMeetingEdit.dart';
+import '../edit/StudyMeetingPost.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class SubmissionMettingListPage extends StatelessWidget {
+class SubmissionMettingListPage extends StatefulWidget {
+  final User user;
+  SubmissionMettingListPage({required this.user});
+  @override
+  _SubmissionMettingList createState() => _SubmissionMettingList();
+}
+
+class _SubmissionMettingList extends State<SubmissionMettingListPage> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,21 +25,45 @@ class SubmissionMettingListPage extends StatelessWidget {
           children: [
             SizedBox(
               height: 400,
-              child: ListView(
-                children: <Widget>[
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => StudyMeetingEditPage(studyMeetingTitle: 'Flutterハンズオン'))
-                      );
-                    },
-                    child: Card(
-                      child: ListTile(
-                        title: Text('Flutterハンズオン'),
-                      ),
-                    ),
-                  )
-                ],
+              child: StreamBuilder<QuerySnapshot>(
+                // 投稿メッセージ一覧を取得（非同期処理）
+                // 投稿日時でソート
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(auth.currentUser!.uid)
+                    .collection('events')
+                    .where('title')
+                    .orderBy('updateTime')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  // データが取得できた場合
+                  if (snapshot.hasData) {
+                    final List<DocumentSnapshot> documents = snapshot.data!.docs;
+                    // 取得した投稿メッセージ一覧を元にリスト表示
+                    return ListView(
+                      children: documents.map((document) {
+                        return Container(
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => SubmissionPage(studyMeetingTitle: document['title'], descriptionText: document['body'], document: document, createDate: document['createTime'], guestCount: document['guestCount'], user: widget.user,))
+                                );
+                              },
+                              child: Card(
+                                child: ListTile(
+                                  title: Text(document['title']),
+                                ),
+                              ),
+                            ),
+                        );
+                      }).toList(),
+                    );
+                  }
+                  // データが読込中の場合
+                  return Center(
+                    child: Text('読込中...'),
+                  );
+                },
               ),
             ),
             Row(
@@ -52,7 +87,7 @@ class SubmissionMettingListPage extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => StudyMeetingEditPage(studyMeetingTitle: ''))
+                      MaterialPageRoute(builder: (context) => PostPage(user: widget.user,))
                     );
                   }
                 ),

@@ -6,16 +6,23 @@ class StudyMeetingDetailPage extends StatefulWidget {
   final String studyMeetingTitle;
   final String descriptionText;
   final DocumentSnapshot document;
+  final int guestCount;
   final User user;
-  StudyMeetingDetailPage({required this.studyMeetingTitle, required this.descriptionText, required this.document, required this.user});
+  StudyMeetingDetailPage({required this.studyMeetingTitle, required this.descriptionText, required this.document, required this.guestCount, required this.user});
   @override
-  _StudyMeetingDetail createState() => _StudyMeetingDetail();
+  _StudyMeetingDetail createState() => _StudyMeetingDetail(this.guestCount);
 }
 
   class _StudyMeetingDetail extends State<StudyMeetingDetailPage> {
 
+    _StudyMeetingDetail(int _tempModel ){
+      this.count =_tempModel;
+    }
+    int count = 0 ;
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.studyMeetingTitle),
@@ -42,7 +49,7 @@ class StudyMeetingDetailPage extends StatefulWidget {
             ),
             Container(
               padding: EdgeInsets.only(top: 20, bottom: 60),
-              child: Text('参加：'),
+              child: Text('参加：'+ '$count'),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -66,11 +73,12 @@ class StudyMeetingDetailPage extends StatefulWidget {
                     onPressed: () async {
                       final date = DateTime.now().toLocal().toIso8601String();
                       final email = widget.user.email;
-                      await FirebaseFirestore.instance
+                      final instance = FirebaseFirestore.instance
                           .collection('users')
                           .doc(widget.document.reference.parent.parent!.id)
                           .collection('events')
-                          .doc(widget.document.id)
+                          .doc(widget.document.id);
+                      await instance
                           .collection('guests')
                           .doc()
                           .set({
@@ -78,6 +86,15 @@ class StudyMeetingDetailPage extends StatefulWidget {
                             'createTime': date
                           }
                         );
+                      await instance
+                          .update(
+                          {
+                            'guestCount': widget.guestCount+1
+                          }
+                      );
+                      setState(() {
+                        count++;
+                      });
                     }
                 ),
               ],

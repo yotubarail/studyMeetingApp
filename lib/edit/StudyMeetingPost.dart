@@ -80,6 +80,7 @@ class _StudyMeetingPostPage extends State<PostPage> {
                         'email': email,
                         'createTime': date,
                         'updateTime': date,
+                        'guestCount': 0
                       });
                       Navigator.of(context).pop();
                     }

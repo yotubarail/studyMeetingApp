@@ -7,8 +7,9 @@ class SubmissionPage extends StatefulWidget {
   final String descriptionText;
   final DocumentSnapshot document;
   final String createDate;
+  final int guestCount;
   final User user;
-  SubmissionPage({required this.studyMeetingTitle, required this.descriptionText, required this.document, required this.createDate, required this.user});
+  SubmissionPage({required this.studyMeetingTitle, required this.descriptionText, required this.document, required this.createDate, required this.guestCount, required this.user});
   @override
   _StudyMeetingEditPage createState() => _StudyMeetingEditPage();
 }
@@ -17,6 +18,7 @@ class _StudyMeetingEditPage extends State<SubmissionPage> {
 
   String studyMeetingTitle = '';
   String descriptionText = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +56,7 @@ class _StudyMeetingEditPage extends State<SubmissionPage> {
               ),
             Container(
               padding: EdgeInsets.only(top: 20, bottom: 60),
-              child: Text('参加：'),
+              child: Text('参加：' + widget.guestCount.toString()),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

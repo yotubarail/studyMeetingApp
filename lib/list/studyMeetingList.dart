@@ -43,7 +43,7 @@ class _StudyMeetingList extends State<StudyMeetingListPage> {
                           child: InkWell(
                             onTap: () {
                               Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => StudyMeetingDetailPage(studyMeetingTitle: document['title'], descriptionText: document['body'], document: document, user: widget.user,))
+                                  MaterialPageRoute(builder: (context) => StudyMeetingDetailPage(studyMeetingTitle: document['title'], descriptionText: document['body'], document: document, guestCount: document['guestCount'], user: widget.user,))
                               );
                             },
                             child: Card(

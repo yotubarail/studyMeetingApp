@@ -46,7 +46,7 @@ class _SubmissionMettingList extends State<SubmissionMettingListPage> {
                             child: InkWell(
                               onTap: () {
                                 Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) => SubmissionPage(studyMeetingTitle: document['title'], descriptionText: document['body'], document: document, createDate: document['createTime'], user: widget.user,))
+                                    MaterialPageRoute(builder: (context) => SubmissionPage(studyMeetingTitle: document['title'], descriptionText: document['body'], document: document, createDate: document['createTime'], guestCount: document['guestCount'], user: widget.user,))
                                 );
                               },
                               child: Card(

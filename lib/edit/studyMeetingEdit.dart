@@ -6,7 +6,7 @@ class SubmissionPage extends StatefulWidget {
   final String studyMeetingTitle;
   final String descriptionText;
   final DocumentSnapshot document;
-  final String createDate;
+  final Timestamp createDate;
   final int guestCount;
   final User user;
   SubmissionPage({required this.studyMeetingTitle, required this.descriptionText, required this.document, required this.createDate, required this.guestCount, required this.user});
@@ -90,7 +90,6 @@ class _StudyMeetingEditPage extends State<SubmissionPage> {
                         'title': (studyMeetingTitle == '') ? widget.studyMeetingTitle : studyMeetingTitle,
                         'body': (descriptionText == '') ? widget.descriptionText : descriptionText,
                         'email': email,
-                        'createTime': (widget.createDate == '') ? date : widget.createDate,
                         'updateTime': date,
                       });
                       Navigator.of(context).pop();

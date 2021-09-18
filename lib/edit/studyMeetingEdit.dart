@@ -79,7 +79,7 @@ class _StudyMeetingEditPage extends State<SubmissionPage> {
                     ),
                     onPressed: () async {
                       final FirebaseAuth auth = FirebaseAuth.instance;
-                      final date = DateTime.now().toLocal().toIso8601String();
+                      final date = Timestamp.fromDate(DateTime.now().toLocal());
                       final email = widget.user.email;
                       await FirebaseFirestore.instance
                       .collection('users')

@@ -88,7 +88,7 @@ class _SignUp extends State<SignUp> {
                             email: emailAddress,
                             password: password,
                           );
-                          final date = DateTime.now().toLocal().toIso8601String();
+                          final date = Timestamp.fromDate(DateTime.now().toLocal());
                           await FirebaseFirestore.instance
                               .collection('users')
                               .doc(auth.currentUser!.uid)

@@ -71,7 +71,7 @@ class StudyMeetingDetailPage extends StatefulWidget {
                         padding: EdgeInsets.all(20.0)
                     ),
                     onPressed: () async {
-                      final date = DateTime.now().toLocal().toIso8601String();
+                      final date = Timestamp.fromDate(DateTime.now().toLocal());
                       final email = widget.user.email;
                       final instance = FirebaseFirestore.instance
                           .collection('users')
